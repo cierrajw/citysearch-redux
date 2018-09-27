@@ -16,6 +16,17 @@ export function updateUser(newUser){
   }
 }
 
+//can dispatch additional actions in response to the api request:
+
+export function showError(){
+  return{
+    type: 'showError',
+    payload: {
+      user: 'The ERROR!!!'
+    }
+  }
+}
+
 export function apiRequest(){
   return dispatch =>{
     $.ajax({
@@ -25,6 +36,7 @@ export function apiRequest(){
       },
       error(){
         console.log('ERRRRRORRR')
+        dispatch(showError());
       }
     })
   }

@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { updateUser, apiRequest, showError } from './Actions/user-actions';
 import { bindActionCreators } from 'redux';
-import CitySearch from './Components/CitySearch'
+import Input from './Components/CitySearch'
 
 class App extends Component {
   constructor(props){
@@ -26,6 +26,10 @@ class App extends Component {
 
   }
 
+  // onUpdateUser = () =>{
+  //   this.props.onUpdateUser('Laquonda Jackson');
+  // }
+
   render() {
 
     return (
@@ -33,9 +37,17 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">City Search</h1>
         </header>
+        <p className="App-intro">
+          To get started, edit <code>src/App.js</code> and save to reload.
+        </p>
+        {this.props.users}
+        <br/>
+        <input onChange={this.onUpdateUser}/>
+        <button onClick={this.onUpdateUser}>Update user</button>
+        <br/>
+        {this.props.users}
 
-
-        <CitySearch />
+        <Input />
 
       </div>
 
@@ -97,5 +109,26 @@ const mapActionsToProps = {
   onShowError: showError
 }
 
+//using passed in props to customize the action creators we're making
+// const mapActionsToProps = (dispatch, props) => {
+//
+//   return bindActionCreators( {
+//     onUpdateUser: updateUser
+//   }, dispatch)
+//
+// }
+
+//propsFromState ====> Whatever is returned from mapStateToProps
+
+//propsFromDispatch ====> Whatever is returned from mapActionsToProps
+
+//ownProps ====> the passed in props to this component
+
+// const mergeProps = (propsFromState, propsFromDispatch, ownProps)=>{
+//   console.log(propsFromState, propsFromDispatch, ownProps);
+//   return {}
+// }
 
 export default connect(mapStateToProps, mapActionsToProps)(App);
+
+// export default connect(mapStateToProps, mapActionsToProps, mergeProps)(App);
