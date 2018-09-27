@@ -7,6 +7,8 @@ function UserReducer(state = '', {type, payload}){
   switch (type){
     case 'updateUser':
       return payload.user;
+    case 'showError':
+      return payload.user
     default:
       return state;
   }

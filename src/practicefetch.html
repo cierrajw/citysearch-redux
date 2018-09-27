@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Type Ahead 👀</title>
+<link rel="stylesheet" href="style.css">
+<script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous">
+    </script></head>
+<body>
+<form class="search-form">
+<input type="text" class="search-input" placeholder="City or State">
+<ul class="suggestions">
+  <li>Filter for a city</li>
+  <li>or a state</li>
+</ul>
+</form>
+
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+const cities = [];
+
+const prom = fetch(endpoint)
+.then(theData => theData.json())
+.then(theData => cities.push(...theData))
+
+//run massive array and filter it down to a subset where youc an listen for it:
+
+function findMatches(wordToMatch, cities){
+  return cities.filter(place => {
+    //figure out if city or state matches what was searched
+    const regex = new RegExp(wordToMatch, 'gi');
+    return place.city.match(regex) || place.state.match(regex);
+  })
+}
+
+const searchInput = $('.search-input');
+
+searchInput.keyup(displayMatches);
+
+function displayMatches(){
+
+  const suggestions = $('.suggestions');
+
+  const matchArray = findMatches(searchInput.val(), cities);
+  const html = matchArray.map(place=>{
+
+    const regex = new RegExp(searchInput.val(), 'gi')
+    const cityName = place.city.replace(regex, `<span class="highlight">${this.value}</span>`)
+    const stateName = place.city.replace(regex, `<span class="highlight">${this.value}</span>`)
+
+    return `
+      <li>
+        <span class="name">${cityName}, ${stateName}</span>
+      </li>
+      `;
+  }).join('');
+
+  suggestions.html(html);
+
+}
+
+
+</script>
+
+</body>
+</html>
