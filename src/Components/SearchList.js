@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
-import SearchList from './SearchList'
 import '../style.css'
 
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
 
-class CitySearch extends Component{
+class SearchList extends Component{
   constructor(){
     super();
   }
 
   render(){
     return(
-      <form class="search-form">
-      <input onKeyUp={this.props.onCitySearch}type="text" class="search-input" placeholder="City or State"/>
+      <ul class="suggestions">
+      
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
 
-      <SearchList />
-
-      </form>
     )
   }
 
 }
 
-export default CitySearch;
+export default SearchList;

@@ -10,32 +10,32 @@ import { Provider } from 'react-redux';
 import ProductsReducer from './Reducers/ProductsReducer';
 import UserReducer from './Reducers/UserReducer';
 
-//
-// const cityReducer = (state, action) =>{
-//   return state;
-// }
-//
-// const allStoreEnhancers = compose(
-//   applyMiddleware(thunk),
-//
-//   window.devToolsExtension && window.devToolsExtension()
-// )
-//
-// const store = createStore(
-//   cityReducer,
-//   {
-//     cities: []
-//   },
-//   //third argument for windows devtools:
-//
-//   allStoreEnhancers
-//
-// );
-//
-// const action = {
-//   type: 'FilterPlaces',
-//   payload:
-// }
+
+//combine reducers:
+const allReducers = combineReducers({
+  products: ProductsReducer,
+  user: UserReducer
+})
+
+const allStoreEnhancers = compose(
+  applyMiddleware(thunk),
+
+  window.devToolsExtension && window.devToolsExtension()
+
+)
+// to pre-populate store, pass in the 'initial state' as the second argument of the createStore method
+const store = createStore(
+  allReducers,
+  {
+    products: [{name: 'iPhone'}],
+    user: 'Lequisha'
+  },
+  //third argument for windows devtools:
+
+  allStoreEnhancers
+
+);
+
 
 // console.log(store.getState());
 
@@ -50,5 +50,5 @@ import UserReducer from './Reducers/UserReducer';
 // store.dispatch(updateUserAction);
 
 
-ReactDOM.render(<Provider><App randoProp="wtf"/></Provider>, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}><App randoProp="wtf"/></Provider>, document.getElementById('root'));
 registerServiceWorker();

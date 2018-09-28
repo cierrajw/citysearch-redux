@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { createSelector } from 'reselect';
-//connect components in our app to the 'store' using the following:
 import { connect } from 'react-redux';
 import { updateUser, apiRequest, showError } from './Actions/user-actions';
 import { bindActionCreators } from 'redux';
@@ -12,18 +11,36 @@ class App extends Component {
   constructor(props){
     super(props);
 
+    this.state = {
+      cities: []
+    }
   }
 
-  onUpdateUser = (event) =>{
-
-    this.props.onUpdateUser(event.target.value);
+  onCitySearch = (event) =>{
+    console.log("regula degula schmegula")
   }
 
   componentDidMount(){
-    setTimeout(()=>{
-      this.props.onApiRequest();
-    }, 1500)
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+    const prom = fetch(endpoint)
+      .then(theData => theData.json())
+      .then(theData => this.state.cities.push(...theData))
+
+      console.log(this.state.cities)
+
+    // setTimeout(()=>{
+    //   this.props.onApiRequest();
+    // }, 1500)
+
+  }
+
+  findMatches(wordToMatch, cities){
+    return this.state.cities.filter(place => {
+      //figure out if city or state matches what was searched
+      const regex = new RegExp(wordToMatch, 'gi');
+      return place.city.match(regex) || place.state.match(regex);
+    })
   }
 
   render() {
@@ -34,68 +51,33 @@ class App extends Component {
           <h1 className="App-title">City Search</h1>
         </header>
 
-
-        <CitySearch />
+        <CitySearch onCitySearch={this.onCitySearch}/>
 
       </div>
-
-
     );
   }
 }
 
-// const mapStateToProps = state =>({
-//   products: state.products,
-//   users: state.user
-// })
 
-// const mapStateToProps = (state, props) =>{
-//   return{
-//     products: state.products,
-//     users: state.user,
-//     userPlusProp: `${state.user} ${props.randoProp}`
-//   }
-// }
-
-//first two arguments are functions that get passed the state
-//last argument receives the results of the first two arguments
-
-// SELECTOR:
+// const citySelector = createSelector(
+//   city => state.cities,
+//   cities => cities
+// )
+//
+//
 // const mapStateToProps = createSelector(
-//   state => state.products,
-//   state => state.user,
-//   (products, user) => ({
+//   userSelector,
+//   (user) => ({
 //   products,
 //   user
 //   })
 // )
+//
+// const mapActionsToProps = {
+//   onCitySearch: updateUser,
+//   onApiFetch: citySearchFetch,
+// }
 
-const prouctsSelector = createSelector(
-  state => state.products,
-  products => products
-)
+export default App;
 
-const userSelector = createSelector(
-  state => state.user,
-  user => user
-)
-
-
-const mapStateToProps = createSelector(
-  prouctsSelector,
-  userSelector,
-  (products, user) => ({
-  products,
-  user
-  })
-)
-console.log(mapStateToProps)
-
-const mapActionsToProps = {
-  onUpdateUser: updateUser,
-  onApiRequest: apiRequest,
-  onShowError: showError
-}
-
-
-export default connect(mapStateToProps, mapActionsToProps)(App);
+// export default connect(mapStateToProps, mapActionsToProps)(App);
