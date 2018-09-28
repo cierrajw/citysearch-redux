@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import $ from 'jquery';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { updateUser, apiRequest, showError } from './Actions/user-actions';
@@ -16,9 +17,6 @@ class App extends Component {
     }
   }
 
-  onCitySearch = (event) =>{
-    console.log("regula degula schmegula")
-  }
 
   componentDidMount(){
     const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
@@ -27,7 +25,11 @@ class App extends Component {
       .then(theData => theData.json())
       .then(theData => this.state.cities.push(...theData))
 
-      console.log(this.state.cities)
+      // this.setState({
+      //   cities: 'hi'
+      // })
+
+      // console.log(this.state.cities)
 
     // setTimeout(()=>{
     //   this.props.onApiRequest();
@@ -36,11 +38,15 @@ class App extends Component {
   }
 
   findMatches(wordToMatch, cities){
-    return this.state.cities.filter(place => {
+
+    let cityFilter = cities.filter(place => {
       //figure out if city or state matches what was searched
       const regex = new RegExp(wordToMatch, 'gi');
       return place.city.match(regex) || place.state.match(regex);
     })
+
+    console.log(cityFilter)
+    return cityFilter;
   }
 
   render() {
@@ -51,7 +57,7 @@ class App extends Component {
           <h1 className="App-title">City Search</h1>
         </header>
 
-        <CitySearch onCitySearch={this.onCitySearch}/>
+        <CitySearch findMatches={this.findMatches} cities={this.state.cities}/>
 
       </div>
     );
