@@ -13,8 +13,11 @@ class App extends Component {
     super(props);
 
     this.state = {
-      cities: []
+      cities: [],
+      citiesResult: []
     }
+
+    this.findMatches = this.findMatches.bind(this);
   }
 
 
@@ -44,9 +47,16 @@ class App extends Component {
       const regex = new RegExp(wordToMatch, 'gi');
       return place.city.match(regex) || place.state.match(regex);
     })
-
     console.log(cityFilter)
-    return cityFilter;
+
+    let thearray = [1, 2, 3, 4]
+
+    this.setState({
+      citiesResult: [...this.state.citiesResult, ...thearray]
+    })
+
+    console.log(this.state.citiesResult)
+
   }
 
   render() {
@@ -57,7 +67,7 @@ class App extends Component {
           <h1 className="App-title">City Search</h1>
         </header>
 
-        <CitySearch findMatches={this.findMatches} cities={this.state.cities}/>
+        <CitySearch findMatches={this.findMatches} cities={this.state.cities} citiesResult={this.state.citiesResult}/>
 
       </div>
     );

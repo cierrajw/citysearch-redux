@@ -15,7 +15,7 @@ class CitySearch extends Component{
       <form class="search-form">
       <input onKeyUp = {(event) => this.props.findMatches(event.target.value, this.props.cities)} type="text" class="search-input" placeholder="City or State"/>
 
-      <SearchList cities={this.props.cities}/>
+      <SearchList citiesResult={this.props.citiesResult}/>
 
       </form>
     )
