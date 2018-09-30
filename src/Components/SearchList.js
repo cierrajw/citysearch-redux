@@ -9,7 +9,7 @@ function SearchList(props){
     {props.citiesResult.map(place=>{
         return place.map(loc=>{
           console.log(loc.city)
-          return (<li>{loc.city}{loc.state}</li>)
+          return (<li>{loc.city}, {loc.state}</li>)
         })
       })}
     </ul>
