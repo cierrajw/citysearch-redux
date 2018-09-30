@@ -49,7 +49,7 @@ class App extends Component {
     })
 
     this.setState({
-      citiesResult: [...this.state.citiesResult, cityFilter]
+      citiesResult: [cityFilter]
     })
 
 
