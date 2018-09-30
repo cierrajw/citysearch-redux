@@ -47,15 +47,11 @@ class App extends Component {
       const regex = new RegExp(wordToMatch, 'gi');
       return place.city.match(regex) || place.state.match(regex);
     })
-    console.log(cityFilter)
-
-    let thearray = [1, 2, 3, 4]
 
     this.setState({
-      citiesResult: [...this.state.citiesResult, ...thearray]
+      citiesResult: [...this.state.citiesResult, cityFilter]
     })
 
-    console.log(this.state.citiesResult)
 
   }
 

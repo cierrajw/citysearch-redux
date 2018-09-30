@@ -5,20 +5,16 @@ import '../style.css'
 function SearchList(props){
 
   return(
-    <ul>
+    <ul className="suggestions">
     {props.citiesResult.map(place=>{
-          return <li>{place}</li>
-        })}
+        return place.map(loc=>{
+          console.log(loc.city)
+          return (<li>{loc.city}{loc.state}</li>)
+        })
+      })}
     </ul>
   )
-  //
-  // return(
-  //   <ul>
-  //     {props.citiesResult.map(place=>{
-  //       return <li>{...place}</li>
-  //     })}
-  //   </ul>
-  //   )
+
 }
 
 export default SearchList;
